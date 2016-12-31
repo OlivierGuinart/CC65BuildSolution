@@ -1,0 +1,60 @@
+PRG=PerfCC65
+SYSTEM=apple2enh
+#L'ordinateur Maison s'appelle M...
+!if "$(COMPUTERNAME)" == "M"  
+# That's the location where I have programs such as AppleWin, or a DOS blank disk image
+MyAppleFolder="C:\Users\Olivier\OneDrive\Apple"
+!else
+#Environnement au bureau...
+MyAppleFolder=D:
+!endif
+
+# Misc. vars
+# https://github.com/AppleWin/AppleWin
+APPLEWIN=$(MyAppleFolder)\AppleWin\Applewin.exe
+# http://applecommander.sourceforge.net/
+APPLECOMMANDER=$(MyAppleFolder)\AppleCommander-1.3.5-ac.jar
+ACJAR=java.exe -jar $(APPLECOMMANDER)
+CC65ROOT=$(MyDrive)\cc65
+CC65=$(CC65ROOT)\bin\CC65.exe
+CL65=$(CC65ROOT)\bin\CL65.exe
+
+$(PRG): $(PRG).c
+#	La ligne suivante ne marche pas pour moi, a moins d'enlever -C apple2enh-system.cfg
+#	cl65 --verbose -O -t $(SYSTEM) -C $(SYSTEM)-system.cfg $(PRG).c
+	@Echo ***************************************************************
+	@Echo *** On compile l'exécutable							
+	@Echo ***************************************************************
+	$(CL65) --verbose -O -t $(SYSTEM) $(PRG).c
+
+GetFloppyAndCopyDSK:
+	@Echo ***************************************************************
+	@Echo *** On copie la disquette vierge à partir du répertoire parent
+	@Echo *** et on copie dessus les fichiers executables et autres 
+	@Echo ***************************************************************
+	copy /Y $(MyAppleFolder)\prodos.dsk .\$(PRG).dsk
+	$(ACJAR) -cc65 $(PRG).dsk $(PRG) bin < $(PRG)
+
+SaveAssemblyFile:
+#	To get the assembly source file and keep it (in the .backup file)
+	@Echo ***************************************************************
+	@Echo *** On génère le fichier source en assembleur, pour référence 
+	@Echo ***************************************************************
+	$(CC65) -v -t $(SYSTEM) $(PRG).c
+	copy /Y $(PRG).s $(PRG).s.bak
+
+LaunchAppleWin:
+	@Echo ***************************************************************
+	@Echo *** On lance le tout dans AppleWin 
+	@Echo ***************************************************************
+	$(APPLEWIN) -d1 $(PRG).dsk
+
+clean:
+	@Echo ***************************************************************
+	@Echo *** On efface les fichiers programme, objet et backup
+	@Echo ***************************************************************
+	del $(PRG) *.o *.s *.bak
+
+all: clean SaveAssemblyFile $(PRG) GetFloppyAndCopyDSK LaunchAppleWin
+
+

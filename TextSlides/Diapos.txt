@@ -1,0 +1,115 @@
+Atelier CC65 (Olivier Guinart)
+Apple French Festival 2015
+AGENDA
+11
+* Qu'est-ce que CC65 ?
+
+* Fonctionnalites 
+
+* Developper aujourd'hui avec CC65
+
+* Demo !
+
+* Ressources
+
+* Remerciements
+QU'EST-CE QUE CC65 ?
+11
+* Ensemble d'outils (Windows, OS X, GNU/Linux, AmigaOS) :
+
+  1- Un compilateur C
+
+  2- Un assembleur
+
+  3- Des librairies de fonctions
+
+  4- Des librairies de cibles 6502 (Apple II, C64, Atari 2600, GEOS, ...)
+
+  5- De la documentation, des examples, une communaute
+FONCTIONNALITES
+11
+* Texte
+
+* Graphisme (http://www.appleoldies.ca/graphics/index.htm)
+
+* PEEK et POKE
+
+* Acces disquette (en-tete dio.h pour routines R/W  de secteurs)
+
+* Pilotes joystick, souris, RS232
+
+* Langage machine en ligne (e.g.  asm("sta  $c050"); /* GRAPHICS */)
+EXEMPLE #1
+12
+#include <stdio.h>
+
+void main(void)
+{
+    printf("Hello, world!\n");
+}
+
+
+* La commande "cl65 hello.c" genere un fichier “hello.o”
+  et un executable C64 (defaut), “hello”
+
+* Pour la version Apple II, "cl65 -t apple2 hello.c"
+EXEMPLE #2
+14
+#include <stdio.h>
+#include <stdlib.h>
+
+extern const char text[];   /* In text.s */
+
+int main (void) 
+{
+   printf ("%s\n", text);
+   return EXIT_SUCCESS;
+}
+
+Text.s:
+   .export _text
+   _text:  .asciiz "Hello world!"
+Developper aujourd'hui avec CC65
+15
+* Visual Studio pour developper : 
+  - dans un environnment moderne, 
+  - avec Intellisense, 
+  - dans le cloud, 
+  - avec gestion de versions, 
+  - en collaboratif, 
+  - gratuit !
+
+* MAKEFILE et NMake pour generer
+
+* Apple Commander pour transferer sous environnement Apple II
+  (option -cc65 pour le transfert du programme)
+
+* Emulateur AppleWin pour tester
+  (e.g. AppleWin.exe -d1 Prodos.dsk)
+Demo !
+0
+Ressources
+12
+* CC65 : http://cc65.github.io/cc65/  et http://www.cc65.org/index.php
+
+* Visual Studio : 
+  https://www.visualstudio.com/downloads/download-visual-studio-vs
+  Express 2015 pour Windows Desktop ou Visual Studio Community 2015
+
+* AppleCommander : http://applecommander.sourceforge.net/
+  (requiert Java)
+
+* AppleWin : https://github.com/AppleWin/AppleWin
+
+* Me contacter : olivier_guinart@live.com
+Remerciements
+9
+* Ullrich von Bassewitz et Oliver Schmidt (CC65)
+
+* http://atarilynxdeveloper.wordpress.com (parametres Visual Studio)
+
+* Bill Buckels (Source de demo graphique)
+
+* Le Maska
+
+* Le comite organisateur :)

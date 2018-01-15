@@ -51,9 +51,9 @@ LaunchAppleWin:
 
 clean:
 	@Echo ***************************************************************
-	@Echo *** On efface les fichiers programme, objet et backup
+	@Echo *** On efface les fichiers programme, objet et backup, et dsk
 	@Echo ***************************************************************
-	del $(PRG) *.o *.s *.bak
+	del $(PRG) *.o *.bak *.dsk
 
 all: clean SaveAssemblyFile $(PRG) GetFloppyAndCopyDSK LaunchAppleWin
 

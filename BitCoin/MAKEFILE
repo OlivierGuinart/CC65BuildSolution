@@ -1,4 +1,4 @@
-PRG=TextSlides
+PRG=BitCoin
 SYSTEM=apple2enh
 #L'ordinateur Maison s'appelle M...
 !if "$(COMPUTERNAME)" == "M"  
@@ -19,6 +19,7 @@ CC65ROOT=$(MyDrive)\cc65
 CC65=$(CC65ROOT)\bin\CC65.exe
 CL65=$(CC65ROOT)\bin\CL65.exe
 
+
 $(PRG): $(PRG).c
 	@Echo ***************************************************************
 	@Echo *** On compile l'exécutable							
@@ -34,7 +35,6 @@ GetFloppyAndCopyDSK:
 	@Echo ***************************************************************
 	copy /Y $(MyAppleFolder)\prodos.dsk .\$(PRG).dsk
 	$(ACJAR) -cc65 $(PRG).dsk $(PRG) bin < $(PRG)
-	$(ACJAR) -p $(PRG).dsk Diapos.txt text < Diapos.txt
 
 SaveAssemblyFile:
 #	To get the non-optimized assembly source file and keep it (in the .backup file)
@@ -57,4 +57,5 @@ clean:
 	del $(PRG) *.o *.bak *.dsk
 
 all: clean SaveAssemblyFile $(PRG) GetFloppyAndCopyDSK LaunchAppleWin
+
 
